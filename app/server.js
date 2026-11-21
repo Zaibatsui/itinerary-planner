@@ -136,6 +136,16 @@ const hasCalScope = scope => String(scope || '').split(/\s+/).includes('https://
 const hasMailScope = scope => String(scope || '').split(/\s+/).includes('https://www.googleapis.com/auth/gmail.readonly');
 const calMap = new Map();   // calendarId -> account id that can read it (best access first)
 
+// whether Google really granted email access, from the token itself (so a temporary 403 never switches email search off)
+async function mailScopeOk(accId) {
+  const a = google.accounts[accId]; if (!a) return false;
+  try {
+    const t = await accessToken(accId);
+    const j = await fetch('https://oauth2.googleapis.com/tokeninfo?access_token=' + encodeURIComponent(t)).then(r => r.json());
+    if (j && j.scope) { const ok = hasMailScope(j.scope); if (a.gmail !== ok) { a.gmail = ok; saveGoogle(); } }
+  } catch {}
+  return !!a.gmail;
+}
 async function accessToken(accId) {
   const { clientId, clientSecret } = gcfg();
   if (!clientId || !clientSecret) throw gErr('not_configured', 'Google sign-in isn\'t set up yet. An admin can add it in Settings → Google Calendar.');
@@ -408,17 +418,31 @@ const server = http.createServer(async (req, res) => {
       if (b.refresh) mail.clearCache();
       const accounts = [], all = [];
       for (const a of accountsFor(me).filter(usable)) {
-        if (!a.gmail) { accounts.push({ email: a.email, gmail: false }); continue; }
+        if (!a.gmail && !(await mailScopeOk(a.id))) { accounts.push({ email: a.email, gmail: false }); continue; }
         try { const t = await accessToken(a.id); all.push(...await mail.scanAccount(a, t, days)); accounts.push({ email: a.email, gmail: true }); }
         catch (e) {
           const apiOff = /has not been used|is disabled|accessNotConfigured/i.test(e.message || '');
-          if (e.status === 403 && !apiOff) { google.accounts[a.id].gmail = false; saveGoogle(); }
-          accounts.push({ email: a.email, gmail: apiOff || e.status !== 403,
+          const busy = /rate|quota|limit|try again/i.test(e.message || '') || e.status === 429;
+          const denied = e.status === 403 && !apiOff && !busy && !(await mailScopeOk(a.id));
+          accounts.push({ email: a.email, gmail: !denied,
             error: apiOff ? 'The Gmail API is switched off in the Google Cloud project. Enable it in Google Cloud Console → APIs & Services → Library → Gmail API.'
-              : e.status === 403 ? 'Email access wasn\'t allowed for this account.' : (e.message || 'Couldn\'t search this inbox.') });
+              : denied ? 'Email access wasn\'t allowed for this account.' : busy ? 'Gmail is busy right now. Try again in a minute.' : (e.message || 'Couldn\'t search this inbox.') });
         }
       }
       return send(res, 200, { bookings: mail.merge(all), accounts });
+    }
+
+    // postcodes written in the booking email(s) an entry came from, to place it on the map
+    if (p === '/api/mail/postcodes' && M === 'POST') {
+      const b = await jsonBody(req);
+      const ids = (b && Array.isArray(b.ids) ? b.ids : []).filter(x => typeof x === 'string' && /^[A-Za-z0-9]{6,40}$/.test(x)).slice(0, 5);
+      if (!ids.length) return fail(res, 400, 'invalid_argument', 'No email to check');
+      for (const a of accountsFor(me).filter(usable)) {
+        if (!a.gmail && !(await mailScopeOk(a.id))) continue;
+        let t; try { t = await accessToken(a.id); } catch { continue; }
+        for (const id of ids) { try { return send(res, 200, { postcodes: await mail.messagePostcodes(t, id) }); } catch {} }
+      }
+      return fail(res, 404, 'not_found', 'Couldn\'t open that email from any linked inbox.');
     }
 
     /* Google Calendar bridge */

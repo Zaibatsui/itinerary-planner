@@ -251,6 +251,7 @@
     store,
     openSettings,
     mailScan: (days, refresh) => api('POST', '/api/mail/scan', { days, refresh }),
+    mailPostcodes: ids => api('POST', '/api/mail/postcodes', { ids }),
     geo: {
       search: (q, limit) => api('GET', '/api/geo/search?q=' + encodeURIComponent(q) + '&limit=' + (limit || 5)).then(r => r.results || []),
       reverse: (lat, lng) => api('GET', `/api/geo/reverse?lat=${lat}&lng=${lng}`),

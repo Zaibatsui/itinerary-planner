@@ -96,6 +96,26 @@ function venueNear(text, at) {
   }
   return best ? best.replace(/^[\s*•\-–]+|[\s*]+$/g, '').replace(/<[^>]*>/g, '').slice(0, 90) : '';
 }
+// UK postcodes in the email, nearest to the booking details first; company footers (registered office etc.) are skipped
+const PC_ALL = /\b([A-Z]{1,2}\d[A-Z\d]?) ?(\d[A-Z]{2})\b/g;
+const FOOTER_RX = /registered|company (no|number)|vat (no|number|reg)|unsubscribe|copyright|©|privacy|all rights reserved/i;
+function postcodesIn(text, at) {
+  const best = new Map(); let m; PC_ALL.lastIndex = 0;
+  while ((m = PC_ALL.exec(text))) {
+    const ls = text.lastIndexOf('\n', m.index) + 1, le = text.indexOf('\n', m.index), line = text.slice(ls, le < 0 ? undefined : le).trim();
+    if (FOOTER_RX.test(line)) continue;
+    const pc = m[1] + ' ' + m[2], d = Math.abs(m.index - (at || 0));
+    const prev = best.get(pc); if (!prev || d < prev.d) best.set(pc, { postcode: pc, d, line: line.replace(/<[^>]*>/g, '').slice(0, 120) });
+  }
+  return [...best.values()].sort((a, b) => a.d - b.d).map(({ postcode, line }) => ({ postcode, line }));
+}
+async function messagePostcodes(token, id) {
+  const r = await fetch(`${GMAIL}/messages/${encodeURIComponent(id)}?format=full`, { headers: { authorization: 'Bearer ' + token } });
+  if (!r.ok) { const e = new Error('Gmail returned ' + r.status); e.status = r.status; throw e; }
+  const m = await r.json(), text = header(m, 'subject') + '\n' + bodyText(m.payload);
+  const d = findDates(text, new Date(+m.internalDate || Date.now()))[0];
+  return postcodesIn(text, d ? d.idx : 0).slice(0, 6);
+}
 const REF_RX = /\b(?:order|booking|confirmation|reservation|reference|ref|pnr|ticket)\s*(?:id|no\.?|number|code|ref(?:erence)?)?\s*[:#]?\s*([A-Za-z0-9][A-Za-z0-9-]{4,15})\b/gi;
 function refFrom(subject, text) {
   for (const src of [subject, text.slice(0, 8000)]) {
@@ -145,6 +165,7 @@ async function scanAccount(account, token, days) {
       received: new Date(+m.internalDate || Date.now()).toISOString(),
       title: titleFrom(subject, from), date: pick.date, start: time || null,
       location: venueNear(text, bodyDates[0] ? bodyDates[0].idx : 0),
+      postcode: (postcodesIn(text, bodyDates[0] ? bodyDates[0].idx : 0)[0] || {}).postcode || '',
       ref: refFrom(subject, text),
       link: `https://mail.google.com/mail/?authuser=${encodeURIComponent(account.email)}#all/${m.id}`
     });
@@ -163,10 +184,10 @@ function merge(all) {
     if (!prev) byKey.set(k, { ...b, accounts: [b.account], ids: [b.id] });
     else {
       prev.accounts = [...new Set([...prev.accounts, b.account])]; prev.ids.push(b.id);
-      for (const f of ['start', 'location', 'ref']) if (!prev[f] && b[f]) prev[f] = b[f];
+      for (const f of ['start', 'location', 'ref', 'postcode']) if (!prev[f] && b[f]) prev[f] = b[f];
     }
   }
   return [...byKey.values()].sort((a, b) => (a.date + (a.start || '')).localeCompare(b.date + (b.start || '')));
 }
 
-module.exports = { findDates, scanAccount, merge, clearCache: () => cache.clear() };
+module.exports = { findDates, postcodesIn, messagePostcodes, scanAccount, merge, clearCache: () => cache.clear() };
