@@ -16,6 +16,7 @@ Single Node.js server, no dependencies, data stored as JSON files. Runs in Docke
   - Public transport: trains, buses, metro, trams and ferries via [Transitous](https://transitous.org), with platforms, departure times and every stop.
   - Each morning starts from the hotel you stayed in (items keyed **Stay**).
 - **Map** — clean CARTO Voyager map, lettered stops, every journey drawn in its line colours.
+- **Finances** — per-trip group of people, payments on each entry (who paid, split between whom), fair shares and the fewest payments to settle up, spending by category, settle-up history with undo.
 - **Your places** — a shared list of saved spots to add to or remove from the plan; imports a Things To Do backup.
 - **Place search** — OpenStreetMap plus every UK postcode via postcodes.io.
 - **Accounts** — multiple users with passwords; admin settings for Google sign-in, map key and people.
