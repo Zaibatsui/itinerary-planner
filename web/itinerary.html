@@ -214,6 +214,16 @@ main{min-width:0;min-height:0;display:flex;flex-direction:column;border-radius:v
 .ag-date b{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:-.03em;line-height:1}
 .ag-date span{font-size:12px;color:var(--muted);font-weight:600}
 .ag-list{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ag-day.today{border-color:color-mix(in srgb,var(--now) 45%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--now) 25%,transparent)}
+.ag-now{position:relative;height:18px;margin:2px 0;display:flex;align-items:center}
+.ag-now::before{content:'';position:absolute;left:0;right:0;top:50%;height:2px;background:var(--now);box-shadow:0 0 8px var(--now);border-radius:2px}
+.ag-now::after{content:'';position:absolute;left:-4px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:var(--now)}
+.ag-now span{position:relative;margin-left:14px;padding:0 8px;background:var(--solid);color:var(--now);font-size:11px;font-weight:800;letter-spacing:.02em}
+.ag-item.is-now{background:color-mix(in srgb,var(--now) 10%,transparent);box-shadow:inset 3px 0 0 var(--now)}
+.ag-r{display:inline-flex;align-items:center;justify-content:flex-end;gap:0;flex-wrap:wrap}
+.ag-r:empty{display:none}
+.now-tag{font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;background:var(--now);color:#fff;margin-right:6px}
+.now-tag.next{background:transparent;color:var(--now);box-shadow:inset 0 0 0 1.5px var(--now)}
 .ag-item{display:grid;grid-template-columns:12px 92px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;border-radius:12px;border:0;background:transparent;text-align:left;width:100%}
 .ag-item:hover{background:var(--hover)}
 .ag-item i{width:10px;height:10px;border-radius:50%;background:var(--cat,var(--c-other))}
@@ -271,7 +281,7 @@ main{min-width:0;min-height:0;display:flex;flex-direction:column;border-radius:v
   :root{--gutter:46px;--colmin:104px}
 }
 @media (max-width:560px){ .top{gap:8px} .trip-head{flex-wrap:wrap;row-gap:4px} .trip-head .progress{margin-left:34px!important;flex-basis:100%} .seg{flex:1 1 100%} .seg button{padding:0 6px;flex:1;justify-content:center} .brand h1{font-size:17px} .seg button .n{display:none} .row3{grid-template-columns:1fr 1fr} .row3>:first-child{grid-column:1/-1}
-  .ag-day{grid-template-columns:56px minmax(0,1fr);gap:10px;padding:12px} .ag-item{grid-template-columns:12px 70px minmax(0,1fr)} .ag-item .pill{display:none} }
+  .ag-day{grid-template-columns:56px minmax(0,1fr);gap:10px;padding:12px} .ag-item{grid-template-columns:12px 70px minmax(0,1fr)} .ag-item .pill{display:none} .ag-r{grid-column:3;justify-content:flex-start} }
 
 /* travel between stops (grid): the block fills the time the journey takes */
 .legc{position:absolute;left:3px;right:5px;z-index:1;display:flex;align-items:flex-start;gap:5px;padding:3px 7px;border-radius:9px;font:inherit;font-size:10.5px;font-weight:650;line-height:1.25;text-align:left;cursor:pointer;
@@ -330,6 +340,52 @@ details.avoid .cats input{margin:0}
 .steps li.ride{border-left:4px solid var(--lc);padding-left:8px;margin-left:2px}
 .mleg button{display:flex;flex-wrap:wrap;align-items:center;gap:5px;border:0;background:none;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
 .mleg .chg{color:var(--accent);font-weight:700}
+/* postcode check */
+#gPos .pc-tools,#iPos .pc-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}#iPos .pc-tools .btn{height:28px;padding:0 10px;font-size:12px}
+#gPos .pc-found,#iPos .pc-found{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+#gPos .pc-found button,#iPos .pc-found button{display:flex;gap:8px;align-items:baseline;text-align:left;border:1px solid var(--line);background:var(--solid);border-radius:10px;padding:6px 10px;font:inherit;color:inherit;cursor:pointer}
+#gPos .pc-found button:hover,#iPos .pc-found button:hover{background:var(--hover)}#gPos .pc-found span,#iPos .pc-found span{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* finances */
+.wallet-btn{padding:0 10px!important}.wallet-btn svg{display:block}
+.pav{--ps:26px;flex:none;width:var(--ps);height:var(--ps);border-radius:50%;background:var(--pc);color:#fff;display:inline-grid;place-items:center;font-weight:800;font-size:calc(var(--ps) * .46);line-height:1;box-shadow:0 0 0 2px var(--solid)}
+.spent{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:color-mix(in srgb,var(--ok) 16%,transparent);color:color-mix(in srgb,var(--ok) 70%,var(--fg));white-space:nowrap}
+.ev .spent{margin-top:2px}
+.ag-item .spent{margin-right:6px}
+.costs{border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.costs-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.costs-h .btn{height:30px;padding:0 10px}
+.pay-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.pay-list li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:var(--hover)}
+.pl-txt{flex:1;min-width:0;font-size:13px;line-height:1.4}.pl-txt .status{display:block}
+.pay-form{display:flex;flex-direction:column;gap:10px}
+.ppick{display:flex;flex-direction:row;flex-wrap:wrap;gap:6px}
+.ppick label{display:inline-flex;align-items:center;gap:6px;padding:4px 12px 4px 4px;border-radius:999px;border:1px solid var(--line);font-size:13px;font-weight:600;cursor:pointer;position:relative;background:var(--solid)}
+.ppick input{position:absolute;opacity:0;pointer-events:none}
+.field .ppick label{display:inline-flex;width:auto;flex:none;color:var(--fg);font-size:13px;font-weight:600}
+.ppick label:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--solid))}
+.ppick label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.add-person{display:flex;gap:8px}.add-person input{flex:1;min-width:0;border:1px solid var(--line);background:var(--solid);border-radius:12px;padding:8px 11px}
+.linkish{border:0;background:none;padding:0;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;text-decoration:underline}
+.toast{display:flex;align-items:center;gap:14px}
+.toast-btn{border:0;background:none;color:var(--accent-2,#ffab5c);font:inherit;font-weight:800;cursor:pointer;padding:0}
+.money{max-width:760px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+.mcard{background:var(--solid);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.mcard-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.mcard-h h2{margin:0;font-size:17px;font-weight:800;flex:1}
+.money ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.people li{display:flex;align-items:center;gap:10px}
+.people input{flex:1;min-width:0;border:1px solid transparent;background:transparent;border-radius:10px;padding:7px 9px;font:inherit;font-weight:700;color:inherit}
+.people input:hover,.people input:focus{border-color:var(--line);background:var(--hover)}
+.settle li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--danger) 7%,var(--solid));border:1px solid color-mix(in srgb,var(--danger) 25%,transparent);flex-wrap:wrap}
+.settle .amt{color:var(--danger)}.settle .btn{height:32px}
+.square{margin:0;padding:12px;border-radius:14px;background:color-mix(in srgb,var(--ok) 12%,transparent);color:color-mix(in srgb,var(--ok) 70%,var(--fg));font-weight:700;text-align:center}
+.who li{display:flex;align-items:center;gap:10px}.who li>div{flex:1;min-width:0}.who .status{display:block}
+.bal{font-weight:800;font-size:13px;white-space:nowrap;color:var(--muted)}.bal.pos{color:color-mix(in srgb,var(--ok) 80%,var(--fg))}.bal.neg{color:var(--danger)}
+.bars li{display:grid;grid-template-columns:110px minmax(0,1fr) auto;align-items:center;gap:10px;font-size:13px}
+.bar{height:10px;border-radius:999px;background:var(--hover);overflow:hidden}.bar i{display:block;height:100%;border-radius:999px}
+.ments button{width:100%;display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--solid);border-radius:14px;padding:10px 12px;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.ments button:hover{background:var(--hover)}
+.mdot{width:10px;height:10px;border-radius:50%;flex:none}.mt{flex:1;min-width:0;display:flex;flex-direction:column}.mt b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.payers{display:flex}.payers .pav{margin-left:-6px}
+@media (max-width:560px){.bars li{grid-template-columns:84px minmax(0,1fr) auto}.money{padding:10px}.mcard{padding:12px}}
 /* your places */
 .pl-search{width:100%;border:1px solid var(--line);background:var(--solid);border-radius:10px;padding:7px 10px;margin:8px 0;font-size:13px}
 .pl-list{display:flex;flex-direction:column;gap:6px;max-height:420px;overflow:auto}
@@ -419,6 +475,7 @@ details.avoid .cats input{margin:0}
       <button data-view="all">Trip</button>
       <button data-view="agenda">List</button>
       <button data-view="map">Map</button>
+      <button data-view="money" title="Finances" aria-label="Finances" class="wallet-btn"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M21 7.28V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2.28A2 2 0 0 0 22 15V9a2 2 0 0 0-1-1.72zM20 9v6h-7V9zM5 19V5h14v2h-6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h6v2zm11-5.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg></button>
     </div>
   </header>
   <div class="notice" id="notice" hidden></div>
@@ -621,7 +678,7 @@ function renderMail(){
     <div class="status ${MAIL.state === 'error' ? 'err' : ''}">${status}</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">${vis.map((b, i) => `<div style="border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;background:var(--solid)">
         <div style="font-weight:700;display:flex;gap:6px;align-items:center">${CHECK}<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.title)}</span></div>
-        <div class="status">${esc(shortDay(b.date))} · ${b.start ? esc(b.start) : 'time not found'}${b.location ? ' · ' + esc(b.location) : ''}</div>
+        <div class="status">${esc(shortDay(b.date))} · ${b.start ? esc(b.start) : 'time not found'}${b.location ? ' · ' + esc(b.location) : ''}${b.postcode && !(b.location || '').toUpperCase().replace(/\s/g, '').includes(b.postcode.replace(/\s/g, '')) ? ' · ' + esc(b.postcode) : ''}</div>
         ${b.ref ? `<div class="status" style="font-family:var(--mono)">${esc(b.ref)}</div>` : ''}
         <div class="status" title="${esc(b.subject)}">In ${esc((b.accounts || [b.account]).map(a => a.split('@')[0]).join(', '))}'s inbox · <a href="${esc(b.link)}" target="_blank" rel="noopener" style="color:inherit">open email</a></div>
         <div style="display:flex;gap:6px;margin-top:4px"><button class="btn primary" style="height:30px;padding:0 12px" data-mail-add="${i}">Add to plan</button><button class="btn" style="height:30px;padding:0 12px" data-mail-dismiss="${i}">Dismiss</button></div></div>`).join('')}</div>
@@ -631,7 +688,8 @@ function renderMail(){
 }
 function addFromMail(b){
   const start = b.start || '09:00', end = mt(Math.min(1440, tm(start) + (b.start ? 120 : 60)));
-  openItemModal({ title: b.title, day: b.date, start, end, allDay: false, cat: guessCat(b.title + ' ' + b.subject), location: b.location || '', ref: b.ref || '',
+  const loc = b.location || '', hasPc = b.postcode && loc.toUpperCase().replace(/\s/g, '').includes(b.postcode.replace(/\s/g, ''));
+  openItemModal({ title: b.title, day: b.date, start, end, allDay: false, cat: guessCat(b.title + ' ' + b.subject), location: b.postcode && !hasPc ? [loc, b.postcode].filter(Boolean).join(', ') : loc, ref: b.ref || '',
     notes: 'From email: ' + b.subject, status: 'confirmed', mailIds: b.ids || [b.id] });
 }
 
@@ -662,7 +720,8 @@ function rebuildCalEvents(){
   const all = [...S.calData].flatMap(([id, d]) => d.events.map(e => {
     const owner = calFor(e.organizer);
     return { ...e, calId:id, key: id + '/' + e.id, showCal: owner ? owner.id : id,
-      editable: WRITABLE.includes(d.access) && (e.organizerSelf || e.guestsCanModify || !e.organizer) };
+      editable: WRITABLE.includes(d.access) && (e.organizerSelf || e.guestsCanModify || !e.organizer) && !e.fromGmail,
+      plannerEdit: WRITABLE.includes(d.access) };
   }));
   // the same booking often appears twice (your Gmail copy + an invite from someone else): keep one, preferring an editable copy
   const seen = new Map();
@@ -684,6 +743,7 @@ function rebuildCalEvents(){
     if (m.allDay === true && m.startDay) { o.allDay = true; o.startDay = m.startDay; o.endDay = m.endDay || addDays(m.startDay,1); }
     else if (m.start && m.end) { const s2 = new Date(m.start), e2 = new Date(m.end); if (!isNaN(s2) && !isNaN(e2)) { o.allDay = false; o.s = s2; o.e = e2; } }
     o.adjusted = ['title','location','notes','start','startDay'].some(k => m[k] != null);
+    if (isFinite(m.lat) && isFinite(m.lng) && m.lat !== null && m.lng !== null) { o.lat = m.lat; o.lng = m.lng; }
     o.hidden = !!m.hidden;
     return o;
   });
@@ -788,7 +848,7 @@ function render(){ renderHeader(); renderSide(); renderView(); }
 
 function visibleDays(){
   const days = tripDays(curTrip());
-  if (S.view === 'agenda' || S.view === 'all' || S.view === 'map') return days;
+  if (S.view === 'agenda' || S.view === 'all' || S.view === 'map' || S.view === 'money') return days;
   const size = Math.min(Number(S.view) || 1, days.length || 1);
   S.start = Math.max(0, Math.min(S.start, Math.max(0, days.length - size)));
   return days.slice(S.start, S.start + size);
@@ -913,6 +973,7 @@ function renderView(){
   const t = curTrip();
   if (!S.ready) { scroller.innerHTML = `<div class="empty"><p>Loading…</p></div>`; return; }
   if (!t) { scroller.innerHTML = emptyHTML('Plan your first trip', 'Name the trip, pick its dates, then fill each day hour by hour. Your Google Calendar appointments for those days appear alongside.', '<button class="btn primary" data-action="new-trip">New trip</button>'); return; }
+  if (S.view === 'money') { if (LMAP) { try { LMAP.remove(); } catch {} LMAP = null; } renderHeader(); return renderMoney(t); }
   const days = tripDays(t);
   if (!days.length) { scroller.innerHTML = emptyHTML('Pick the days for ' + esc(t.name), 'Click dates in the <b>Trip days</b> calendar to add them. You can pick days that aren\'t next to each other.', ''); return; }
   renderHeader();
@@ -1000,14 +1061,14 @@ function evHTML(e, day){
     const it = e.it, time = itemTimeTxt(it);
     const lateIn = (S._lateIn || new Map()).get(day + '|' + srcKey(e));
     return `<div class="ev item ${stat}${short?' short':''}${lateIn ? ' late-in' : ''}" role="button" tabindex="0" data-item="${esc(it.id)}" data-day="${day}" style="${style};--cat:${catVar(it)}" title="${stat === 'confirmed' ? 'Confirmed' : 'Planned'}${lateIn ? ` · you'd arrive about ${lateIn} min late` : ''}">
-      <div class="t">${lateIn ? `<span class="late-t">⚠ ${lateIn} min late</span>` : ''}${mark}<span style="overflow:hidden;text-overflow:ellipsis">${esc(it.title || '(No title)')}</span></div><div class="s">${time}${!short && it.location ? ' · ' + esc(it.location) : ''}</div>
+      <div class="t">${lateIn ? `<span class="late-t">⚠ ${lateIn} min late</span>` : ''}${mark}<span style="overflow:hidden;text-overflow:ellipsis">${esc(it.title || '(No title)')}</span></div><div class="s">${time}${!short && it.location ? ' · ' + esc(it.location) : ''}</div>${!short && h > 52 ? spentTag(payRef(e)) : ''}
       ${!short && h > 70 && it.ref ? `<div class="s" style="font-family:var(--mono)">${esc(it.ref)}</div>` : ''}${e.first && h >= 34 ? '<div class="rz top" data-rz="top" title="Drag to change the start"></div>' : ''}${e.last ? '<div class="rz" data-rz="end" title="Drag to change the end"></div>' : ''}</div>`;
   }
   const ev = e.ev, cal = calInfo(ev.showCal || ev.calId), multi = tripCals(curTrip()).length > 1;
-  const draggable = ev.editable || stat === 'planned';
+  const draggable = ev.editable || ev.plannerEdit || stat === 'planned';
   const lateIn = (S._lateIn || new Map()).get(day + '|' + srcKey(e));
   return `<div class="ev gcal ${stat}${short?' short':''}${lateIn ? ' late-in' : ''}" role="button" tabindex="0" data-gcal="${esc(ev.key)}" ${draggable ? 'data-edit="1"' : ''} style="${style};--cat:var(--c-${evCat(ev)})" title="${esc(cal.label)} · ${stat === 'confirmed' ? 'Confirmed' : 'Planned'}">
-    <div class="t">${lateIn ? `<span class="late-t">⚠ ${lateIn} min late</span>` : ''}${mark}<span class="cdot2" style="background:${esc(cal.color)}"></span>${ev.fromGmail ? '<span class="tag">Gmail</span>' : ''}${ev.adjusted ? '<span class="tag">Edited</span>' : ''}<span style="overflow:hidden;text-overflow:ellipsis">${esc(ev.title)}</span></div><div class="s">${fmtTime(ev.s)}–${fmtTime(ev.e)}${!short && ev.location ? ' · ' + esc(ev.location) : ''}</div>
+    <div class="t">${lateIn ? `<span class="late-t">⚠ ${lateIn} min late</span>` : ''}${mark}<span class="cdot2" style="background:${esc(cal.color)}"></span>${ev.fromGmail ? '<span class="tag">Gmail</span>' : ''}${ev.adjusted ? '<span class="tag">Edited</span>' : ''}<span style="overflow:hidden;text-overflow:ellipsis">${esc(ev.title)}</span></div><div class="s">${fmtTime(ev.s)}–${fmtTime(ev.e)}${!short && ev.location ? ' · ' + esc(ev.location) : ''}</div>${!short && h > 52 ? spentTag(payRef(e)) : ''}
     ${!short && multi && h > 56 ? `<div class="who">${esc(cal.label)}</div>` : ''}${draggable && e.first && h >= 34 ? '<div class="rz top" data-rz="top"></div>' : ''}${draggable && e.last ? '<div class="rz" data-rz="end"></div>' : ''}</div>`;
 }
 function chipHTML(x){
@@ -1036,24 +1097,40 @@ function renderGrid(vis, all){
   } else { scroller.scrollTop = prevTop; scroller.scrollLeft = prevLeft; }
 }
 function renderAgenda(days, t){
-  const today = todayISO();
+  const today = todayISO(), now = new Date(), nowMin = now.getHours() * 60 + now.getMinutes();
   scroller.innerHTML = `<div class="agenda" style="--trip:${esc(t.color || TRIP_COLORS[0])}">${days.map((d, i) => {
     const en = dayEntries(d), legs = dayLegs(d), legTo = new Map(legs.map(l => [stopKey(l.B), l]));
     const rows = [
       ...en.allDay.map(x => ({sort:-1, x, time:'All day'})),
       ...en.timed.map(x => ({sort:x.a, x, time: x.kind==='item' ? itemTimeTxt(x.it) : `${fmtTime(x.ev.s)}–${fmtTime(x.ev.e)}${iso(new Date(+x.ev.e - 1)) > iso(x.ev.s) ? ' <span class="plus1">+1</span>' : ''}`}))
     ].sort((p,q) => p.sort - q.sort);
-    return `<div class="ag-day"><div class="ag-date"><span class="tripday">Day ${i+1}</span><b ${d===today?'style="color:var(--accent)"':''}>${parseISO(d).getDate()}</b><span>${parseISO(d).toLocaleDateString('en-GB',{weekday:'short',month:'short'})}</span></div>
-      <div class="ag-list">${rows.length ? rows.map(r => {
+    // today: mark what's on now and what's next, and put a "now" line in the schedule
+    const isToday = d === today;
+    const nextIdx = isToday ? rows.findIndex(r => r.sort > nowMin) : -1;
+    const nowLine = `<div class="ag-now" id="agNow"><span>Now · ${mt(nowMin)}</span></div>`;
+    return `<div class="ag-day${isToday ? ' today' : ''}"${isToday ? ' id="agToday"' : ''}><div class="ag-date"><span class="tripday">Day ${i+1}</span><b ${d===today?'style="color:var(--accent)"':''}>${parseISO(d).getDate()}</b><span>${parseISO(d).toLocaleDateString('en-GB',{weekday:'short',month:'short'})}</span></div>
+      <div class="ag-list">${rows.length ? rows.map((r, ri) => {
         const x = r.x, isItem = x.kind === 'item', stat = entryStatus(x), lg = r.sort >= 0 ? legTo.get(stopKey({ x })) : null;
+        const isNow = isToday && r.sort >= 0 && x.a <= nowMin && nowMin < x.b, isNext = isToday && ri === nextIdx;
         const title = isItem ? (x.it.title||'(No title)') : x.ev.title, loc = isItem ? x.it.location : x.ev.location;
         const color = isItem ? catVar(x.it) : `var(--c-${evCat(x.ev)})`;
-        return `${lg ? legDetailHTML(lg) : ''}<button class="ag-item ${stat}" ${isItem ? `data-item="${esc(x.it.id)}"` : `data-gcal="${esc(x.ev.key)}"`} style="--cat:${color}">
+        return `${isNext ? nowLine : ''}${lg ? legDetailHTML(lg) : ''}<button class="ag-item ${stat}${isNow ? ' is-now' : isNext ? ' is-next' : ''}" ${isItem ? `data-item="${esc(x.it.id)}"` : `data-gcal="${esc(x.ev.key)}"`} style="--cat:${color}">
           <i></i><span class="tm">${r.time}</span><span class="tt">${!isItem && x.ev.fromGmail ? '<span class="tag">Gmail</span> ' : ''}${esc(title)}${loc ? ` <span class="loc">· ${esc(loc)}</span>` : ''}</span>
-          <span class="pill ${stat}">${stat === 'confirmed' ? 'Confirmed' : 'Planned'}</span></button>`; }).join('')
+          <span class="ag-r">${isNow ? '<span class="now-tag">Now</span>' : isNext ? '<span class="now-tag next">Next</span>' : ''}${spentTag(payRef(x))}<span class="pill ${stat}">${stat === 'confirmed' ? 'Confirmed' : 'Planned'}</span></span></button>`; }).join('')
         : `<div class="ag-none">${S.statusFilter === 'all' ? 'Nothing planned yet.' : 'Nothing ' + S.statusFilter + ' on this day.'}</div>`}
+        ${isToday && nextIdx < 0 ? nowLine : ''}
         <div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn ghost" style="height:30px;padding:0 10px" data-add-day="${d}">+ Add to ${esc(shortDay(d))}</button>${restoreBtn(d, legs)}</div></div></div>`;
   }).join('')}</div>`;
+  // opening the List during the trip jumps to today, showing what's on now and next; other times it starts at the top
+  if (S.needScroll) {
+    S.needScroll = false;
+    const cur = scroller.querySelector('.ag-item.is-now'), tgt = cur || scroller.querySelector('#agNow') || scroller.querySelector('#agToday');
+    if (tgt) {
+      const dayEl = tgt.closest('.ag-day'), off = tgt.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
+      const dayTop = dayEl ? dayEl.getBoundingClientRect().top - scroller.getBoundingClientRect().top : off;
+      scroller.scrollTop += off - dayTop > scroller.clientHeight * 0.4 ? off - 140 : dayTop - 8;   // keep the day's date in view unless the current item is far down
+    } else scroller.scrollTop = 0;
+  }
 }
 
 // travel shown between entries on the List view, in full
@@ -1098,9 +1175,9 @@ function openTripModal(trip){
     <h3>${isNew ? 'New trip' : 'Edit trip'}</h3>
     <input class="title-in" id="tName" placeholder="Trip name, e.g. Berlin conference" value="${esc(t.name||'')}" autofocus>
     <div class="field"><label for="tDest">Destination</label><input id="tDest" value="${esc(t.destination||'')}" placeholder="City or region"></div>
-    ${isNew ? `<div class="row2"><div class="field"><label for="tStart">First day</label><input type="date" id="tStart" value="${start}"></div>
+    <div class="row2"><div class="field"><label for="tStart">First day</label><input type="date" id="tStart" value="${start}"></div>
       <div class="field"><label for="tEnd">Last day</label><input type="date" id="tEnd" value="${end}"></div></div>
-      <p class="hint" style="margin:0;color:var(--muted);font-size:12px">You can add or remove single days afterwards in the Trip days calendar.</p>` : ''}
+      <p class="hint" id="tHint" style="margin:0;color:var(--muted);font-size:12px">${isNew ? 'You can add or remove single days afterwards in the Trip days calendar.' : 'Changing the dates keeps your plans. Days you removed in the Trip days calendar stay removed.'}</p>
     <div class="field"><span class="lbl">Colour</span><div class="swatches">${TRIP_COLORS.map((c,i) => `<label style="--sw:${c}" title="Colour ${i+1}"><input type="radio" name="tColor" value="${c}" ${c===color?'checked':''} aria-label="Colour ${i+1}"></label>`).join('')}</div></div>
     <div class="err-msg" id="tErr" hidden></div>
     <div class="foot">${isNew ? '' : '<button class="btn danger" id="tDel">Delete trip</button>'}<span class="spacer"></span>
@@ -1122,7 +1199,21 @@ function openTripModal(trip){
         const id = store.newId();
         closeModal();
         if (await write(() => store.setTrip(id, {name, destination:dest, days, color:colorV, createdAt:new Date().toISOString()}), 'Trip created')) { S.tripId = id; lsSet('itin-trip', id); selectTrip(id); }
-      } else { closeModal(); write(() => store.patchTrip(t.id, {name, destination:dest, color:colorV}), 'Trip saved'); }
+      } else {
+        const a = m.querySelector('#tStart').value, b = m.querySelector('#tEnd').value, patch = {name, destination:dest, color:colorV};
+        if (!a || !b) { err.textContent = 'Pick the first and last day.'; err.hidden = false; return; }
+        if (b < a) { err.textContent = 'The last day must be on or after the first day.'; err.hidden = false; return; }
+        if (a !== start || b !== end || !d.length) {
+          // keep any single days that were taken out between the old first and last day
+          const old = new Set(d), gaps = new Set(); for (let x = start; d.length && x <= end; x = addDays(x, 1)) if (!old.has(x)) gaps.add(x);
+          const days = []; for (let x = a; x <= b && days.length < 121; x = addDays(x, 1)) if (!gaps.has(x)) days.push(x);
+          if (days.length > 120) { err.textContent = 'Trips can be up to 120 days long.'; err.hidden = false; return; }
+          if (!days.length) { err.textContent = 'Those dates leave no days in the trip.'; err.hidden = false; return; }
+          patch.days = days;
+        }
+        const outside = patch.days ? S.items.filter(i => t.id === S.tripId && !patch.days.includes(i.day)).length : 0;
+        closeModal(); write(() => store.patchTrip(t.id, patch), outside ? `Trip saved. ${outside} plan${outside > 1 ? 's are' : ' is'} on days outside the new dates; they're kept and can be shown again from Trip days.` : 'Trip saved');
+      }
     };
   });
 }
@@ -1157,15 +1248,18 @@ function openItemModal(init){
     ${statusPicker('iStat', it.status)}
     <div class="field"><span class="lbl">Key</span><div class="cats">${Object.entries(CATS).map(([k,c]) => `<label style="--cat:var(--c-${k})"><input type="radio" name="iCat" value="${k}" ${it.cat===k?'checked':''}><i></i>${c.label}</label>`).join('')}</div></div>
     <div class="field"><label for="iLoc">Location</label><input id="iLoc" value="${esc(it.location||'')}" placeholder="Search an address or venue" autocomplete="off"><div class="geo-sugg" id="iSugg" hidden></div>${GEO ? '<div class="status" id="iPos"></div>' : ''}</div>
+    <div class="row2"><div class="field"><label for="iPrice">Price per person (£)</label><input id="iPrice" type="number" inputmode="decimal" min="0" step="0.01" value="${isFinite(it.pricePP) && it.pricePP !== null ? esc(it.pricePP) : ''}" placeholder="Optional"></div><div></div></div>
     <div class="field"><label for="iRef">Booking reference</label><input id="iRef" value="${esc(it.ref||'')}" placeholder="e.g. PNR, confirmation number" style="font-family:var(--mono)"></div>
     <div class="field"><label for="iNotes">Notes</label><textarea id="iNotes" placeholder="Tickets, contacts, what to bring">${esc(it.notes||'')}</textarea></div>
     ${isNew && !it.gcalId && writableCals().length ? `<div class="field"><label for="iSaveTo">Save to</label><select id="iSaveTo">
       <option value="">This itinerary only</option>${writableCals().map(c => `<option value="${esc(c.id)}">Google Calendar · ${esc(c.label)}</option>`).join('')}</select></div>` : ''}
     ${it.gcalId ? '<p class="status">Copied from Google Calendar. Changes here don\'t change your calendar.</p>' : ''}
+    ${costsHTML()}
     <div class="err-msg" id="iErr" hidden></div>
     <div class="foot">${isNew ? '' : '<button class="btn danger" id="iDel">Delete</button>'}<span class="spacer"></span>
       <button class="btn" id="iCancel">Cancel</button><button class="btn primary" id="iSave">Save</button></div>`, m => {
     const all = m.querySelector('#iAll'), st = m.querySelector('#iStart'), en = m.querySelector('#iEnd');
+    renderCosts(m.querySelector('#costBox'), { kind:'item', id: isNew ? '__new__' : it.id });
     const dSel = m.querySelector('#iDay'), edSel = m.querySelector('#iEndDay');
     let endOff = it.day ? dayDiff(itemEndDay(it), it.day) : 0;
     let autoEnd = true;
@@ -1179,10 +1273,7 @@ function openItemModal(init){
     dSel.addEventListener('change', () => fillEnd()); en.addEventListener('change', fillEnd);
     const sync = () => { st.disabled = en.disabled = all.checked; m.querySelector('#iEndRow').hidden = all.checked; }; all.onchange = sync; sync();
     if (!it.id && tm(en.value) <= tm(st.value) && en.value !== '00:00') endOff = 1; fillEnd();
-    let pos = hasXY(it) ? { lat:it.lat, lng:it.lng } : null;
-    const showPos = () => { const el = m.querySelector('#iPos'); if (el) el.textContent = pos ? 'On the map, so travel time to and from it is worked out.' : 'Pick a search result to put it on the map and plan travel to it.'; };
-    showPos();
-    attachGeoSearch(m.querySelector('#iLoc'), m.querySelector('#iSugg'), r => { pos = { lat:r.lat, lng:r.lng }; m.querySelector('#iLoc').value = [r.name, ...r.address.split(',').slice(1, 3)].map(x => x.trim()).filter((x, i, a) => x && a.indexOf(x) === i).join(', '); showPos(); }, () => { pos = null; showPos(); });
+    const place = placeTools(m, { loc:'#iLoc', sugg:'#iSugg', pos:'#iPos', start: hasXY(it) ? { lat:it.lat, lng:it.lng } : null, mailIds: it.mailIds });
     st.addEventListener('change', () => { // keep duration when start moves
       const dur = tm(init.end || '10:00') - tm(init.start || '09:00');
       if (dur > 0 && tm(st.value) + dur <= 1440) en.value = mt(tm(st.value) + dur);
@@ -1204,10 +1295,11 @@ function openItemModal(init){
         status: (m.querySelector('input[name=iStat]:checked') || {}).value === 'confirmed' ? 'confirmed' : 'planned'
       };
       data.endDay = !all.checked && off > 0 ? addDays(data.day, off) : null;
+      const pr = m.querySelector('#iPrice').value.trim(); data.pricePP = pr === '' ? null : Math.round(parseFloat(pr) * 100) / 100;
       if (it.gcalId) data.gcalId = it.gcalId;
       if (it.mailIds) data.mailIds = it.mailIds;
       if (it.placeId) data.placeId = it.placeId;
-      data.lat = pos ? pos.lat : null; data.lng = pos ? pos.lng : null;
+      const pos = place.pos; data.lat = pos ? pos.lat : null; data.lng = pos ? pos.lng : null;
       const saveTo = m.querySelector('#iSaveTo') ? m.querySelector('#iSaveTo').value : '';
       if (saveTo) {
         const input = { calendarId: saveTo, summary: data.title, location: data.location,
@@ -1224,7 +1316,13 @@ function openItemModal(init){
         return;
       }
       closeModal();
-      if (isNew) write(() => store.setItem(S.tripId, store.newId(), {...data, createdAt:new Date().toISOString()}), 'Added to itinerary');
+      if (isNew) {
+        // payments recorded on a calendar event move with it when it's copied into the itinerary
+        const carried = Array.isArray(it.payments) && it.payments.length ? it.payments : null;
+        write(() => store.setItem(S.tripId, store.newId(), {...data, ...(carried ? { payments:carried } : {}), createdAt:new Date().toISOString()}), 'Added to itinerary').then(ok => {
+          const ev = ok && carried && S.calEvents.find(e => e.key === it.gcalId); if (ev) setEvMeta(ev, { payments:[] });
+        });
+      }
       else write(() => store.setItem(S.tripId, it.id, {...stripId(S.items.find(x => x.id === it.id)), ...data}));
     };
     m.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); m.querySelector('#iSave').click(); } });
@@ -1244,14 +1342,14 @@ function copyToItinerary(ev, day){
   const endDay = !ev.allDay ? iso(new Date(+ev.e - 1)) : null;
   const end = ev.allDay ? '10:00' : (fmtTime(ev.e) === '00:00' ? '24:00' : fmtTime(ev.e));
   openItemModal({ title:ev.title, day:d, allDay:ev.allDay, start: ev.allDay ? '09:00' : fmtTime(ev.s), end, endDay: endDay && endDay > d ? endDay : null,
-    location:ev.location, notes:ev.desc.slice(0,800), cat:evCat(ev), gcalId:ev.key, status: evStatus(ev) });
+    location:ev.location, notes:ev.desc.slice(0,800), cat:evCat(ev), gcalId:ev.key, status: evStatus(ev), payments: evMeta(ev).payments || [] });
 }
 function catPicker(name, cur){
   return `<div class="field"><span class="lbl">Key</span><div class="cats">${Object.entries(CATS).map(([k,c]) => `<label style="--cat:var(--c-${k})"><input type="radio" name="${name}" value="${k}" ${cur===k?'checked':''}><i></i>${c.label}</label>`).join('')}</div></div>`;
 }
 function openGcalModal(ev, day){
   const cal = calInfo(ev.showCal || ev.calId), stat = evStatus(ev), cat = evCat(ev);
-  const mode = ev.editable ? 'google' : (stat === 'planned' ? 'local' : 'locked');
+  const mode = ev.editable ? 'google' : (stat === 'planned' || ev.plannerEdit ? 'local' : 'locked');
   const whenTxt = ev.allDay
     ? (ev.endDay === addDays(ev.startDay,1) ? longDay(ev.startDay) : `${shortDay(ev.startDay)} – ${shortDay(addDays(ev.endDay,-1))}`) + ' · All day'
     : `${ev.s.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${fmtTime(ev.s)}–${fmtTime(ev.e)}`;
@@ -1263,9 +1361,15 @@ function openGcalModal(ev, day){
     openModal(`<div class="detail"><h3>${ev.fromGmail ? '<span class="tag">Gmail</span> ' : ''}${esc(ev.title)}</h3><div>${esc(whenTxt)}</div>
         ${ev.location ? `<div class="muted">${esc(ev.location)}</div>` : ''}${ev.desc ? `<div class="desc">${esc(ev.desc)}</div>` : ''}${calLine}</div>
       ${statusPicker('gStat', stat)}${catPicker('gCat', cat)}
+      ${GEO ? `<div class="field"><label for="gLoc">Map location</label><input id="gLoc" value="${esc(ev.location || '')}" placeholder="Search an address, venue or postcode" autocomplete="off"><div class="geo-sugg" id="gSugg" hidden></div><div class="status" id="gPos"></div></div>` : ''}
+      ${costsHTML()}
       <p class="status">Confirmed booking from ${esc(who)}, so the details are locked. Switch it to Planned to adjust it in this planner.</p>
       <div class="foot"><button class="btn" id="gHide">Hide from trip</button>${openLink}<span class="spacer"></span><button class="btn" id="gAdd">Add to itinerary</button><button class="btn primary" id="gClose">Done</button></div>`, m => {
       m.querySelector('#gClose').onclick = closeModal;
+      renderCosts(m.querySelector('#costBox'), { kind:'gcal', ev });
+      // only where it is on the map can change here; it's saved straight away and kept in the planner
+      if (GEO) placeTools(m, { loc:'#gLoc', sugg:'#gSugg', pos:'#gPos', start: hasXY(ev) ? { lat:ev.lat, lng:ev.lng } : null,
+        onChange: p => { if (p) setEvMeta(ev, { lat:p.lat, lng:p.lng }, 'Map location saved'); } });
       m.querySelector('#gAdd').onclick = () => copyToItinerary(ev, day);
       m.querySelector('#gHide').onclick = () => { closeModal(); setEvMeta(ev, {hidden:true}, 'Hidden. Show it again from the Google Calendar panel.'); };
       m.querySelectorAll('input[name=gCat]').forEach(r => r.onchange = () => setEvMeta(ev, {cat:r.value}, 'Key updated'));
@@ -1284,7 +1388,8 @@ function openGcalModal(ev, day){
     span: ev.allDay ? Math.max(1, Math.round((parseISO(ev.endDay) - parseISO(ev.startDay)) / 864e5)) : 1
   };
   const note = mode === 'local'
-    ? `<p class="status">${esc(who)}'s event is view-only in Google, so your changes are kept in this planner. Google Calendar keeps the original.</p>`
+    ? (ev.fromGmail && ev.plannerEdit ? '<p class="status">Google doesn\'t allow changes to events it creates from Gmail, so your changes are kept in this planner. Google Calendar keeps the original.</p>'
+      : `<p class="status">${esc(who)}'s event is view-only in Google, so your changes are kept in this planner. Google Calendar keeps the original.</p>`)
     : (ev.recurring ? '<p class="status">This is a repeating event. Changes apply to this occurrence only.</p>' : '');
   openModal(`
     <input class="title-in" id="gTitle" value="${esc(o.title)}" placeholder="Add title" autofocus>
@@ -1297,15 +1402,19 @@ function openGcalModal(ev, day){
     </div>
     <label class="check"><input type="checkbox" id="gAll" ${o.allDay?'checked':''}> All day</label>
     ${catPicker('gCat', cat)}
-    <div class="field"><label for="gLoc">Location</label><input id="gLoc" value="${esc(o.location)}"></div>
+    <div class="field"><label for="gLoc">Location</label><input id="gLoc" value="${esc(o.location)}" placeholder="Search an address, venue or postcode" autocomplete="off"><div class="geo-sugg" id="gSugg" hidden></div>${GEO ? '<div class="status" id="gPos"></div>' : ''}</div>
     <div class="field"><label for="gDesc">${mode === 'local' ? 'Notes' : 'Description'}</label><textarea id="gDesc">${esc(o.desc)}</textarea></div>
     ${mode === 'google' && ev.guests ? '<label class="check"><input type="checkbox" id="gNotify"> Email guests about changes</label>' : ''}
     ${note}
+    ${costsHTML()}
     <div class="err-msg" id="gErr" hidden></div>
     <div class="foot">${mode === 'google' ? '<button class="btn danger" id="gDel">Delete</button>' : `<button class="btn" id="gHide">Hide</button>${ev.adjusted ? '<button class="btn" id="gReset">Reset</button>' : ''}`}${openLink}<span class="spacer"></span>
       <button class="btn" id="gCopy" title="Copy into this trip's itinerary">Add to itinerary</button>
       <button class="btn" id="gCancel">Cancel</button><button class="btn primary" id="gSave">Save</button></div>`, m => {
     const $m = s => m.querySelector(s), err = $m('#gErr');
+    const startPos = hasXY(ev) ? { lat:ev.lat, lng:ev.lng } : null;
+    const place = placeTools(m, { loc:'#gLoc', sugg:'#gSugg', pos:'#gPos', start:startPos });
+    renderCosts($m('#costBox'), { kind:'gcal', ev });
     const all = $m('#gAll'), st = $m('#gStart'), en = $m('#gEnd');
     const sync = () => { st.disabled = en.disabled = all.checked; }; all.onchange = sync; sync();
     const busy = on => m.querySelectorAll('button').forEach(b => b.disabled = on);
@@ -1330,18 +1439,25 @@ function openGcalModal(ev, day){
       const timeChanged = date !== o.date || allDay !== o.allDay || (!allDay && (start !== o.start || end !== o.end));
       const endDate = tm(end) <= tm(start) ? addDays(date, 1) : date;
       busy(true);
-      const metaPatch = {};
+      const metaPatch = {}, np = place.pos;
+      if (np ? !startPos || np.lat !== startPos.lat || np.lng !== startPos.lng : startPos) { metaPatch.lat = np ? np.lat : null; metaPatch.lng = np ? np.lng : null; }   // map position stays in the planner
       if (newStat !== stat) metaPatch.status = newStat;
       if (newCat !== cat) metaPatch.cat = newCat;
-      if (mode === 'local') {
-        if (title !== o.title) metaPatch.title = title;
-        if (loc !== o.location) metaPatch.location = loc;
-        if (desc !== o.desc) metaPatch.notes = desc;
+      // the same changes kept in this planner instead of Google (view-only events, Gmail bookings, or when Google refuses)
+      const plannerPatch = () => {
+        const mp = {};
+        if (title !== o.title) mp.title = title;
+        if (loc !== o.location) mp.location = loc;
+        if (desc !== o.desc) mp.notes = desc;
         if (timeChanged) {
-          if (allDay) Object.assign(metaPatch, {allDay:true, startDay:date, endDay:addDays(date, o.span), start:null, end:null});
+          if (allDay) Object.assign(mp, {allDay:true, startDay:date, endDay:addDays(date, o.span), start:null, end:null});
           else { const ns = parseISO(date); ns.setMinutes(tm(start)); const ne = parseISO(endDate); ne.setMinutes(tm(end));
-            Object.assign(metaPatch, {allDay:false, start:ns.toISOString(), end:ne.toISOString(), startDay:null, endDay:null}); }
+            Object.assign(mp, {allDay:false, start:ns.toISOString(), end:ne.toISOString(), startDay:null, endDay:null}); }
         }
+        return mp;
+      };
+      if (mode === 'local') {
+        Object.assign(metaPatch, plannerPatch());
         if (!Object.keys(metaPatch).length) { closeModal(); return; }
         const ok = await setEvMeta(ev, metaPatch, 'Saved in planner');
         if (ok) closeModal(); else busy(false);
@@ -1359,7 +1475,14 @@ function openGcalModal(ev, day){
       if (Object.keys(metaPatch).length) await setEvMeta(ev, metaPatch);
       if (Object.keys(input).length === 3) { if (Object.keys(metaPatch).length) toast('Saved'); closeModal(); return; }
       const r = await gcalWrite('update_event', input, 'Saved to Google Calendar');
-      if (r.ok) closeModal(); else showErr(r.msg);
+      if (r.ok) { closeModal(); return; }
+      // Google won't let some events be changed (for example ones it created from Gmail): keep the change in the planner instead
+      if (/bad request|invalid|cannot|not allowed|forbidden/i.test(r.msg || '')) {
+        const ok = await setEvMeta(ev, plannerPatch(), 'Google Calendar wouldn\'t accept that change, so it\'s saved in the planner instead');
+        if (ok) closeModal(); else busy(false);
+        return;
+      }
+      showErr(r.msg);
     };
   });
 }
@@ -1580,6 +1703,8 @@ function endDrag(e, cancelled){
 scroller.addEventListener('pointerup', e => endDrag(e, false));
 scroller.addEventListener('pointercancel', e => endDrag(e, true));
 
+// keep the List's "now" line and Now/Next marks current during the trip
+setInterval(() => { if (S.view === 'agenda' && !S.dragging && !mroot.innerHTML && !document.hidden && tripDays(curTrip()).includes(todayISO())) renderView(); }, 60000);
 setInterval(() => { if (!S.dragging && !mroot.innerHTML && S.view !== 'agenda') { const nl = scroller.querySelector('.nowline'); if (nl) { const n = new Date(); nl.style.top = (n.getHours()*60+n.getMinutes())/60*HOUR + 'px'; } } }, 60000);
 
 let resizeT = null;
@@ -1624,6 +1749,7 @@ function geoFor(text){
 }
 function entryXY(x){
   if (x.kind === 'item') { if (hasXY(x.it)) return { lat:x.it.lat, lng:x.it.lng }; return geoFor(x.it.location); }
+  if (hasXY(x.ev)) return { lat:x.ev.lat, lng:x.ev.lng };
   return geoFor(x.ev.location);
 }
 // the day's timed stops in time order, each with coordinates when known
@@ -2109,6 +2235,45 @@ function openPlaceModal(p){
   });
 }
 // address search box with suggestions (used by places and itinerary items)
+// location box helpers shared by entries and calendar events: address search, postcode check,
+// and (for entries from email) finding the postcode in the booking email. onChange(pos) runs when the map position changes.
+function placeTools(m, o){
+  const locIn = m.querySelector(o.loc), posEl = () => m.querySelector(o.pos);
+  const PCX = /\b([A-Z]{1,2}\d[A-Z\d]?)\s*(\d[A-Z]{2})\b/i;
+  const pcOf = v => { const x = PCX.exec(v || ''); return x ? (x[1] + ' ' + x[2]).toUpperCase() : ''; };
+  let pos = o.start || null, posNote = '', found = null;
+  const set = (p, note) => { pos = p; posNote = note || ''; if (o.onChange) o.onChange(pos); };
+  const placeByPostcode = async (pc, quiet) => {
+    const el = posEl(); if (el && !quiet) el.textContent = `Checking ${pc}…`;
+    try { const r = await GEO.search(pc, 1), hit = r && r[0];
+      if (hit) { set({ lat:hit.lat, lng:hit.lng }, `Placed using postcode ${pc}, so travel to and from it is worked out.`); show(); return true; } } catch {}
+    if (!quiet) { posNote = ''; show(`Couldn't find ${pc}. Check it's typed correctly.`); }
+    return false;
+  };
+  const addPc = pcv => { if (!pcOf(locIn.value)) locIn.value = [locIn.value.trim(), pcv].filter(Boolean).join(', '); };
+  const show = warn => {
+    const el = posEl(); if (!el || !locIn) return;
+    if (pos) { el.textContent = posNote || 'On the map, so travel time to and from it is worked out.'; return; }
+    const pc = pcOf(locIn.value), canMail = HOST && HOST.mailPostcodes && Array.isArray(o.mailIds) && o.mailIds.length;
+    el.innerHTML = `${esc(warn || 'Pick a search result or use a postcode to put it on the map and plan travel to it.')}
+      ${pc || canMail ? `<span class="pc-tools">${pc ? `<button type="button" class="btn" data-pc-use="${esc(pc)}">Place by postcode ${esc(pc)}</button>` : ''}${canMail ? '<button type="button" class="btn" data-pc-mail>Find the postcode in the email</button>' : ''}</span>` : ''}
+      ${found ? (found.length ? `<span class="pc-found">${found.map(f => `<button type="button" data-pc-pick="${esc(f.postcode)}"><b>${esc(f.postcode)}</b><span>${esc(f.line)}</span></button>`).join('')}</span>` : '<span class="pc-found status">No postcode found in that email.</span>') : ''}`;
+    const u = el.querySelector('[data-pc-use]'); if (u) u.onclick = () => placeByPostcode(u.dataset.pcUse);
+    el.querySelectorAll('[data-pc-pick]').forEach(b => b.onclick = () => { const pcv = b.dataset.pcPick; addPc(pcv); found = null; placeByPostcode(pcv); });
+    const mb = el.querySelector('[data-pc-mail]');
+    if (mb) mb.onclick = async () => { mb.disabled = true; mb.textContent = 'Reading the email…';
+      try { found = (await HOST.mailPostcodes(o.mailIds)).postcodes || []; } catch (e) { found = null; show((e && e.message) || 'Couldn\'t read that email.'); return; }
+      if (found.length === 1) { const pcv = found[0].postcode; found = null; addPc(pcv); placeByPostcode(pcv); } else show();
+    };
+  };
+  if (locIn) {
+    show();
+    if (!pos && GEO && pcOf(locIn.value)) placeByPostcode(pcOf(locIn.value), true);
+    attachGeoSearch(locIn, m.querySelector(o.sugg), r => { set({ lat:r.lat, lng:r.lng }); locIn.value = [r.name, ...r.address.split(',').slice(1, 3)].map(x => x.trim()).filter((x, i, a) => x && a.indexOf(x) === i).join(', '); show(); },
+      () => { if (pos) set(null); show(); });
+  }
+  return { get pos(){ return pos; } };
+}
 function attachGeoSearch(input, box, onPick, onEdit){
   if (!GEO || !input || !box) return;
   let t = null, results = [];
@@ -2287,6 +2452,250 @@ document.addEventListener('input', e => { if (e.target.id === 'plSearch') { plac
 if (GEO && store === null) {}  // store is set at boot
 
 S.places = S.places || [];
+
+/* ---------- finances: who paid for what, fair shares, who owes whom ----------
+   Stored with the existing records, so nothing else changes shape:
+   trip.people  = [{ id, name, colour }]                 the group for this trip
+   trip.settles = [{ id, from, to, amount, date }]       money paid back
+   item.payments = [{ id, who, amount, note, split[], date }]          on your own entries
+   trip.gmeta[eventKey].payments (+ ptitle)              on Google Calendar entries (same slot as other planner tweaks) */
+const PEOPLE_COLOURS = ['#2b7bff','#ff5a36','#10b981','#8b5cf6','#ec4899','#ff9f1c','#06b6d4','#64748b','#c026d3','#65a30d'];
+const gbp = n => (Math.round((+n || 0) * 100) / 100).toLocaleString('en-GB', { style:'currency', currency:'GBP' });
+const dayMonth = d => parseISO(String(d).slice(0, 10)).toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+const tripPeople = () => ((curTrip() || {}).people) || [];
+const personById = id => tripPeople().find(p => p.id === id);
+const pName = id => (personById(id) || {}).name || 'Someone';
+function avatarHTML(id, size){
+  const p = personById(id) || { name:'?', colour:'#94a3b8' };
+  return `<span class="pav" style="--pc:${esc(p.colour)}${size ? ';--ps:' + size + 'px' : ''}" title="${esc(p.name)}">${esc((p.name || '?').trim().charAt(0).toUpperCase())}</span>`;
+}
+const joinNames = ids => { const n = ids.map(pName); return n.length <= 2 ? n.join(' & ') : n.slice(0, -1).join(', ') + ' & ' + n.at(-1); };
+
+// where an entry's payments live
+const payRef = x => x.kind === 'item' ? { kind:'item', id:x.it ? x.it.id : x.id } : { kind:'gcal', ev:x.ev };
+function paymentsOf(ref){
+  if (ref.kind === 'item') return ((S.items.find(i => i.id === ref.id) || {}).payments) || [];
+  return evMeta(ref.ev).payments || [];
+}
+function savePayments(ref, list, msg){
+  if (ref.kind === 'item') return write(() => store.patchItem(S.tripId, ref.id, { payments:list }), msg);
+  return setEvMeta(ref.ev, { payments:list, ptitle:ref.ev.title }, msg);
+}
+const entrySpent = ref => paymentsOf(ref).reduce((t, p) => t + (+p.amount || 0), 0);
+const spentTag = ref => { const n = entrySpent(ref); return n > 0 ? `<span class="spent">${gbp(n)} spent</span>` : ''; };
+
+// every payment on the trip with the entry it belongs to
+function tripLedger(){
+  const t = curTrip() || {}, out = [];
+  for (const it of S.items) for (const p of it.payments || [])
+    out.push({ ...p, entry:{ ref:{ kind:'item', id:it.id }, title:it.title || '(No title)', cat:it.cat || 'other', day:it.day } });
+  for (const [k, m] of Object.entries(t.gmeta || {})) for (const p of m.payments || []) {
+    const ev = S.calEvents.find(e => gKey(e) === k);
+    out.push({ ...p, entry:{ ref: ev ? { kind:'gcal', ev } : null, key:k, title: ev ? ev.title : (m.title || m.ptitle || 'Calendar event'),
+      cat: ev ? evCat(ev) : (m.cat || 'other'), day: ev ? (ev.allDay ? ev.startDay : iso(ev.s)) : '' } });
+  }
+  return out;
+}
+// paid, fair share, settle-ups sent/received and net balance per person (positive = owed money)
+function balances(){
+  const t = curTrip() || {}, B = new Map();
+  const row = id => { if (!B.has(id)) B.set(id, { id, paid:0, share:0, sent:0, received:0 }); return B.get(id); };
+  tripPeople().forEach(p => row(p.id));
+  for (const p of tripLedger()) {
+    const amt = +p.amount || 0, split = (p.split || []).length ? p.split : [p.who];
+    row(p.who).paid += amt;
+    split.forEach(id => { row(id).share += amt / split.length; });
+  }
+  for (const s of t.settles || []) { row(s.from).sent += +s.amount || 0; row(s.to).received += +s.amount || 0; }
+  B.forEach(r => { r.net = Math.round((r.paid - r.share + r.sent - r.received) * 100) / 100; });
+  return [...B.values()];
+}
+// fewest payments to square everyone: largest debtor pays largest creditor, repeat
+function settlePlan(bal){
+  const debt = bal.filter(b => b.net < -0.005).map(b => ({ id:b.id, v:Math.round(-b.net * 100) }));
+  const cred = bal.filter(b => b.net > 0.005).map(b => ({ id:b.id, v:Math.round(b.net * 100) }));
+  const out = [];
+  for (let guard = 0; guard < 500; guard++) {
+    debt.sort((a, b) => b.v - a.v); cred.sort((a, b) => b.v - a.v);
+    if (!debt.length || !cred.length || debt[0].v < 1 || cred[0].v < 1) break;
+    const n = Math.min(debt[0].v, cred[0].v);
+    out.push({ from:debt[0].id, to:cred[0].id, amount:n / 100 });
+    debt[0].v -= n; cred[0].v -= n;
+    if (debt[0].v < 1) debt.shift(); if (cred[0] && cred[0].v < 1) cred.shift();
+  }
+  return out;
+}
+
+/* undo toast */
+function toastUndo(msg, undo){
+  document.querySelectorAll('.toast').forEach(x => x.remove());
+  const el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role', 'status');
+  el.innerHTML = `<span>${esc(msg)}</span><button class="toast-btn" type="button">Undo</button>`;
+  el.querySelector('button').onclick = () => { el.remove(); undo(); };
+  document.body.appendChild(el); clearTimeout(toastT); toastT = setTimeout(() => el.remove(), 6000);
+}
+
+/* people */
+function addPerson(name){
+  const t = curTrip(), n = String(name || '').trim().replace(/\s+/g, ' ').slice(0, 40);
+  if (!t) return Promise.resolve(null);
+  if (!n) { toast('Type a name first'); return Promise.resolve(null); }
+  const dup = tripPeople().find(p => p.name.toLowerCase() === n.toLowerCase());
+  if (dup) { toast(`${dup.name} is already in the group`); return Promise.resolve(null); }
+  const used = new Set(tripPeople().map(p => p.colour));
+  const colour = PEOPLE_COLOURS.find(c => !used.has(c)) || PEOPLE_COLOURS[tripPeople().length % PEOPLE_COLOURS.length];
+  const p = { id: 'p' + store.newId().slice(0, 10), name:n, colour };
+  return write(() => store.patchTrip(t.id, { people:[...tripPeople(), p] }), `${n} added`).then(ok => ok ? p : null);
+}
+function renamePerson(id, name){
+  const t = curTrip(), n = String(name || '').trim().replace(/\s+/g, ' ').slice(0, 40);
+  if (!n) return toast('A name is needed');
+  const dup = tripPeople().find(p => p.id !== id && p.name.toLowerCase() === n.toLowerCase());
+  if (dup) { toast(`${dup.name} is already in the group`); renderView(); return; }
+  write(() => store.patchTrip(t.id, { people: tripPeople().map(p => p.id === id ? { ...p, name:n } : p) }), 'Renamed');
+}
+function personInUse(id){
+  return tripLedger().some(p => p.who === id || (p.split || []).includes(id)) || ((curTrip() || {}).settles || []).some(s => s.from === id || s.to === id);
+}
+function removePerson(id){
+  const t = curTrip(), p = personById(id); if (!p) return;
+  if (personInUse(id)) return toast(`${p.name} is part of recorded payments or settle-ups. Remove those first.`);
+  const before = tripPeople();
+  write(() => store.patchTrip(t.id, { people: before.filter(x => x.id !== id) })).then(ok => ok && toastUndo(`${p.name} removed`, () => write(() => store.patchTrip(t.id, { people:before }))));
+}
+
+/* Costs section inside an entry's window */
+function costsHTML(){ return `<section class="costs" id="costBox"></section>`; }
+function suggestedPrice(ref){
+  if (ref.kind !== 'item') return null;
+  const it = S.items.find(i => i.id === ref.id) || {};
+  if (isFinite(it.pricePP) && it.pricePP > 0) return +it.pricePP;
+  const pl = it.placeId && typeof placeById === 'function' ? placeById(it.placeId) : null;
+  return pl && isFinite(pl.price) && pl.price > 0 ? +pl.price : null;
+}
+function paymentLine(p){
+  const split = (p.split || []).length ? p.split : [p.who];
+  const share = split.length > 1 ? `Split between ${esc(joinNames(split))} · ${gbp(p.amount / split.length)} each` : `Just for ${esc(pName(split[0]))}`;
+  return `${avatarHTML(p.who)}<div class="pl-txt"><b>${esc(pName(p.who))} paid ${gbp(p.amount)}</b>${p.note ? ' · ' + esc(p.note) : ''}
+    <span class="status">${share} · ${esc(dayMonth(p.date))}</span></div>`;
+}
+function renderCosts(box, ref, formOpen){
+  if (!box || !box.isConnected) return;
+  if (ref.kind === 'item' && !S.items.some(i => i.id === ref.id)) {
+    box.innerHTML = `<div class="costs-h"><b>Costs</b></div><p class="status">Save the entry first, then add who paid for it.</p>`; return;
+  }
+  const list = paymentsOf(ref), total = list.reduce((t, p) => t + (+p.amount || 0), 0), ppl = tripPeople();
+  const sug = suggestedPrice(ref);
+  box.innerHTML = `<div class="costs-h"><b>Costs</b>${total ? `<span class="pill">${gbp(total)} spent</span>` : ''}<span class="spacer"></span>
+      ${formOpen ? '' : '<button type="button" class="btn" data-pay-open>+ Add payment</button>'}</div>
+    ${list.length ? `<ul class="pay-list">${list.map(p => `<li>${paymentLine(p)}<button type="button" class="icon-btn" data-pay-del="${esc(p.id)}" aria-label="Delete payment" title="Delete payment">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zm3-9h2v8H9zm4 0h2v8h-2zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></li>`).join('')}</ul>`
+      : formOpen ? '' : '<p class="status">No payments yet.</p>'}
+    ${formOpen ? `<div class="pay-form">
+      ${ppl.length ? `<div class="field"><span class="lbl">Who paid</span><div class="ppick" id="payWho">${ppl.map((p, i) => `<label><input type="radio" name="payWho" value="${esc(p.id)}" ${i === 0 ? 'checked' : ''}>${avatarHTML(p.id, 20)}${esc(p.name)}</label>`).join('')}</div></div>
+      <div class="row2"><div class="field"><label for="payAmt">Amount (£)</label><input id="payAmt" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="0.00"></div>
+        <div class="field"><label for="payNote">What for</label><input id="payNote" maxlength="60" placeholder="Optional, e.g. Tickets"></div></div>
+      <div class="status" id="paySug"></div>
+      <div class="field"><span class="lbl">Split between</span><div class="ppick" id="paySplit">${ppl.map(p => `<label><input type="checkbox" value="${esc(p.id)}" checked>${avatarHTML(p.id, 20)}${esc(p.name)}</label>`).join('')}</div></div>`
+      : '<p class="status">Add the people in your group first.</p>'}
+      <div class="add-person"><input id="payNewName" maxlength="40" placeholder="${ppl.length ? 'Someone missing? Add their name' : 'Name, e.g. Alex'}" autocomplete="off"><button type="button" class="btn" data-pay-person>Add person</button></div>
+      <div class="err-msg" id="payErr" hidden></div>
+      <div class="foot"><span class="spacer"></span><button type="button" class="btn" data-pay-cancel>Cancel</button>${ppl.length ? '<button type="button" class="btn primary" data-pay-save>Add payment</button>' : ''}</div></div>` : ''}`;
+  const $b = s => box.querySelector(s);
+  const again = open => renderCosts(box, ref, open);
+  const openBtn = $b('[data-pay-open]'); if (openBtn) openBtn.onclick = () => again(true);
+  box.querySelectorAll('[data-pay-del]').forEach(b => b.onclick = () => {
+    const before = paymentsOf(ref), gone = before.find(p => p.id === b.dataset.payDel);
+    savePayments(ref, before.filter(p => p.id !== b.dataset.payDel)).then(ok => {
+      again(false);
+      if (ok && gone) toastUndo(`Payment of ${gbp(gone.amount)} deleted`, () => savePayments(ref, [...paymentsOf(ref), gone].sort((a, b) => String(a.date).localeCompare(String(b.date)))).then(() => again(false)));
+    });
+  });
+  if (!formOpen) return;
+  const sugUpdate = () => {
+    const el = $b('#paySug'); if (!el) return;
+    const n = box.querySelectorAll('#paySplit input:checked').length;
+    el.innerHTML = sug && n ? `Suggested: <button type="button" class="linkish" data-pay-sug="${(sug * n).toFixed(2)}">${gbp(sug * n)} for ${n} at ${gbp(sug)}</button>` : '';
+    const s = $b('[data-pay-sug]'); if (s) s.onclick = () => { $b('#payAmt').value = s.dataset.paySug; };
+  };
+  box.querySelectorAll('#paySplit input').forEach(c => c.onchange = sugUpdate); sugUpdate();
+  if ($b('#payAmt')) $b('#payAmt').focus(); else $b('#payNewName').focus();
+  $b('[data-pay-cancel]').onclick = () => again(false);
+  const addP = () => addPerson($b('#payNewName').value).then(p => { if (p) again(true); });
+  $b('[data-pay-person]').onclick = addP;
+  $b('#payNewName').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); addP(); } };
+  const save = $b('[data-pay-save]');
+  if (save) save.onclick = () => {
+    const err = $b('#payErr'); err.hidden = true;
+    const who = (box.querySelector('input[name=payWho]:checked') || {}).value;
+    const amount = Math.round(parseFloat($b('#payAmt').value) * 100) / 100;
+    const split = [...box.querySelectorAll('#paySplit input:checked')].map(c => c.value);
+    if (!who) { err.textContent = 'Pick who paid.'; err.hidden = false; return; }
+    if (!(amount > 0)) { err.textContent = 'Enter an amount above £0.'; err.hidden = false; return; }
+    if (!split.length) { err.textContent = 'Tick at least one person to split it between.'; err.hidden = false; return; }
+    const p = { id:'pay' + store.newId().slice(0, 12), who, amount, note:$b('#payNote').value.trim().slice(0, 60), split, date:todayISO() };
+    save.disabled = true;
+    savePayments(ref, [...paymentsOf(ref), p], 'Payment added').then(() => again(false));
+  };
+}
+
+/* Finances page */
+const WALLET = '<svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M21 7.28V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2.28A2 2 0 0 0 22 15V9a2 2 0 0 0-1-1.72zM20 9v6h-7V9zM5 19V5h14v2h-6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h6v2zm11-5.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>';
+function renderMoney(t){
+  const ppl = tripPeople(), ledger = tripLedger(), bal = balances(), plan = settlePlan(bal);
+  const total = ledger.reduce((s, p) => s + (+p.amount || 0), 0);
+  const byCat = {}; ledger.forEach(p => { byCat[p.entry.cat] = (byCat[p.entry.cat] || 0) + (+p.amount || 0); });
+  const catMax = Math.max(0, ...Object.values(byCat));
+  const entries = new Map(); ledger.forEach(p => { const k = p.entry.ref && p.entry.ref.kind === 'item' ? 'i' + p.entry.ref.id : 'g' + (p.entry.key || ''); const e = entries.get(k) || { ...p.entry, total:0, payers:new Set() }; e.total += +p.amount || 0; e.payers.add(p.who); entries.set(k, e); });
+  const settles = (t.settles || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const balTxt = r => r.net > 0.004 ? `<span class="bal pos">Owed ${gbp(r.net)}</span>` : r.net < -0.004 ? `<span class="bal neg">Owes ${gbp(-r.net)}</span>` : '<span class="bal">Square</span>';
+  scroller.innerHTML = `<div class="money">
+    <section class="mcard"><div class="mcard-h"><h2>People</h2><span class="status">${esc(t.name)}</span></div>
+      <ul class="people">${ppl.map(p => `<li>${avatarHTML(p.id, 30)}<input value="${esc(p.name)}" data-pname="${esc(p.id)}" maxlength="40" aria-label="Name">
+        <button class="icon-btn" data-premove="${esc(p.id)}" aria-label="Remove ${esc(p.name)}" title="Remove"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button></li>`).join('') || '<li class="status">No one yet. Add the people sharing this trip.</li>'}</ul>
+      <div class="add-person"><input id="mNewName" maxlength="40" placeholder="Name" autocomplete="off"><button class="btn primary" id="mAddPerson">Add person</button></div></section>
+    <section class="mcard"><div class="mcard-h"><h2>Settle up</h2></div>
+      ${plan.length ? `<ul class="settle">${plan.map((s, i) => `<li>${avatarHTML(s.from)}<span><b>${esc(pName(s.from))}</b> owes <b>${esc(pName(s.to))}</b> <b class="amt">${gbp(s.amount)}</b></span>${avatarHTML(s.to)}<span class="spacer"></span><button class="btn" data-mpaid="${i}">Mark paid</button></li>`).join('')}</ul>`
+        : `<p class="square">${ledger.length ? 'Everyone is square' : 'No payments recorded yet. Add them from an entry\'s Costs section.'}</p>`}</section>
+    <section class="mcard"><div class="mcard-h"><h2>Who paid what</h2><span class="status">${gbp(total)} spent · ${ledger.length} payment${ledger.length === 1 ? '' : 's'}</span></div>
+      <ul class="who">${bal.filter(r => personById(r.id) || r.paid || r.share).map(r => `<li>${avatarHTML(r.id, 30)}<div><b>${esc(pName(r.id))}</b>
+        <span class="status">Paid ${gbp(r.paid)} · fair share ${gbp(r.share)}${r.sent ? ` · paid back ${gbp(r.sent)}` : ''}${r.received ? ` · received ${gbp(r.received)}` : ''}</span></div>${balTxt(r)}</li>`).join('') || '<li class="status">Nothing yet.</li>'}</ul></section>
+    ${catMax > 0 ? `<section class="mcard"><div class="mcard-h"><h2>Spending by category</h2></div>
+      <ul class="bars">${Object.entries(byCat).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<li><span>${esc((CATS[k] || CATS.other).label)}</span><div class="bar"><i style="width:${Math.max(2, v / catMax * 100)}%;background:var(--c-${CATS[k] ? k : 'other'})"></i></div><b>${gbp(v)}</b></li>`).join('')}</ul></section>` : ''}
+    <section class="mcard"><div class="mcard-h"><h2>Entries with payments</h2></div>
+      <ul class="ments">${[...entries.values()].sort((a, b) => String(a.day).localeCompare(String(b.day))).map((e, i) => `<li><button data-ment="${i}"><span class="mdot" style="background:var(--c-${CATS[e.cat] ? e.cat : 'other'})"></span>
+        <span class="mt"><b>${esc(e.title)}</b><span class="status">${e.day ? esc(shortDay(e.day)) : ''}</span></span><span class="payers">${[...e.payers].map(id => avatarHTML(id, 22)).join('')}</span><b>${gbp(e.total)}</b></button></li>`).join('') || '<li class="status">None yet.</li>'}</ul></section>
+    ${settles.length ? `<section class="mcard"><div class="mcard-h"><h2>Settle-up history</h2></div>
+      <ul class="pay-list">${settles.map(s => `<li>${avatarHTML(s.from)}<div class="pl-txt"><b>${esc(pName(s.from))} paid ${esc(pName(s.to))} ${gbp(s.amount)}</b><span class="status">${esc(dayMonth(s.date))}</span></div>
+        <button class="icon-btn" data-sdel="${esc(s.id)}" aria-label="Delete settle-up" title="Delete"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zm3-9h2v8H9zm4 0h2v8h-2zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></li>`).join('')}</ul></section>` : ''}
+  </div>`;
+  const ents = [...entries.values()].sort((a, b) => String(a.day).localeCompare(String(b.day)));
+  const $s = s => scroller.querySelector(s);
+  const add = () => addPerson($s('#mNewName').value);
+  $s('#mAddPerson').onclick = add;
+  $s('#mNewName').onkeydown = e => { if (e.key === 'Enter') add(); };
+  scroller.querySelectorAll('[data-pname]').forEach(i => {
+    i.onchange = () => renamePerson(i.dataset.pname, i.value);
+    i.onkeydown = e => { if (e.key === 'Enter') i.blur(); };
+  });
+  scroller.querySelectorAll('[data-premove]').forEach(b => b.onclick = () => removePerson(b.dataset.premove));
+  scroller.querySelectorAll('[data-mpaid]').forEach(b => b.onclick = () => {
+    const s = plan[+b.dataset.mpaid], rec = { id:'st' + store.newId().slice(0, 12), from:s.from, to:s.to, amount:s.amount, date:todayISO() };
+    write(() => store.patchTrip(t.id, { settles:[...(curTrip().settles || []), rec] })).then(ok => ok && toastUndo(`${pName(s.from)} paid ${pName(s.to)} ${gbp(s.amount)}`,
+      () => write(() => store.patchTrip(t.id, { settles:(curTrip().settles || []).filter(x => x.id !== rec.id) }))));
+  });
+  scroller.querySelectorAll('[data-sdel]').forEach(b => b.onclick = () => {
+    const before = curTrip().settles || [], gone = before.find(x => x.id === b.dataset.sdel);
+    write(() => store.patchTrip(t.id, { settles:before.filter(x => x.id !== b.dataset.sdel) })).then(ok => ok && gone && toastUndo('Settle-up deleted',
+      () => write(() => store.patchTrip(t.id, { settles:[...(curTrip().settles || []), gone] }))));
+  });
+  scroller.querySelectorAll('[data-ment]').forEach(b => b.onclick = () => {
+    const e = ents[+b.dataset.ment];
+    if (e.ref && e.ref.kind === 'item') { const it = S.items.find(i => i.id === e.ref.id); if (it) openItemModal(it); }
+    else if (e.ref) openGcalModal(e.ref.ev, e.day);
+    else toast('That calendar event isn\'t loaded right now. Check the trip\'s calendars.');
+  });
+}
 
 /* ---------- boot ---------- */
 render();
